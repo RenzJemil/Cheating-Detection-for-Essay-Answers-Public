@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+<!-- CONNECTION FOR THE OTHER FILE -->
+
+{% block head %}
+<!-- DISPLAY THE HEADER -->
+
+<title>Upload CSV File</title>
+
+{% endblock %}
+
+{% block body %}
+<!-- DISPLAY THE BODY -->
+
+<br>
+
+<!-- UPLOADING A FILE -->
+<div class="container">
+    <h1>UPLOAD TO DATABASE</h1>
+    <form action="/database-upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="db-upload" accept=".csv"> <!-- limit to csv files only -->
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+<br>
+
+<!-- show upload success, ask if the table will be displayed -->
+{% with message = get_flashed_messages(category_filter=["message"]) %}
+    {% if message %}
+    <p class="text-success"> {{ message[0] }} </p>
+    <br>
+    <p class="text">
+        Display in table?
+        <a href="{{ url_for('display_in_table', table_name=table_name) }}"><button class="btn btn-success"> OK </button></a>
+    </p>
+    {% endif %}
+{% endwith %}
+
+{% if table %}
+    <table class="table table-bordered table-dark">
+        <thead>
+            <tr>
+                {% for header in headers %}
+                <th> {{ header }} </th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in table %}
+            <tr>
+                {% for key in row.keys() %}
+                <td> {{ row.get(key) }} </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+
+<!-- OTHER METHOD TO DISPLAY THE TABLE [1] . COMMENT THE TABLE ABOVE FIRST -->
+<!-- {{ table | safe }} -->
+
+{% endblock %}

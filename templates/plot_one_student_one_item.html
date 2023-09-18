@@ -1,0 +1,16 @@
+{% extends 'plot_one_student_all_items.html' %}
+
+{% block table %}
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>Student {{ studentId }}</th>
+        </tr>
+        {% for id in student_ids %}
+            <tr>
+                <th>Student {{ id['Student ID'] }}</th>
+                <td>{{ result_euclideans[loop.index-1][0].round(2) }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

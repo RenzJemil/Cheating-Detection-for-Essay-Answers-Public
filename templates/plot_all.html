@@ -1,0 +1,27 @@
+{% extends 'plot_one_student_all_items.html' %}
+
+{% block table %}
+    <table class="table">
+        <tr>
+            <th></th><th></th>
+            {% for row in table %}
+                <th>Student {{ row['Student ID'] }}</th>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th></th><th></th>
+            {% for row in table %}
+                <th>{{ row['Item No'] }}</th>
+            {% endfor %}
+        </tr>
+        {% for row in table %}
+            <tr>
+                <th>Student {{ row['Student ID'] }}</th>
+                <th>{{ row['Item No'] }}</th>
+                {% for row in result_euclideans[loop.index-1].round(2) %}
+                    <td>{{ row }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

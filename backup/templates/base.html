@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> <!-- added some bootstrap and link to styles.css-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    {% block head %}{% endblock %} <!-- CONNECTION FOR ALL HEADERS FROM THE REST OF THE FILES -->
+</head>
+<body>
+    <nav> <!-- REMOVED LINKS IN EACH FILE, PLACED ALL HERE -->
+        <a href="{{ url_for('index') }}"><button class="btn btn-primary"> Upload Data Only </button></a>
+        <a href="{{ url_for('database_upload') }}"><button class="btn btn-primary"> Upload Data to Database </button></a>
+        <a href="{{ url_for('search') }}"><button class="btn btn-primary"> Search Data </button></a>
+    </nav>
+    {% block body %}{% endblock %} <!-- CONNECTION FOR ALL BODY FROM THE REST OF THE FILES -->
+    {% with message = get_flashed_messages(category_filter=["error"]) %}
+        {% if message %} <!-- added a span message -->
+            <p class="text-danger"> {{ message[0] }} </p>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>

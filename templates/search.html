@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<title>Search</title>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <form id="search-form" action="{{ url_for('search') }}#search-form" method="post">
+        <h1>SEARCH</h1>
+        <br>
+        <label for="exam">Select Exam:</label><br>
+        <select name="exam" id="exam" title="exam">
+            {% for row in exam_list %}
+            <option>{{ row }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" name="submit-exam" value="Submit">
+        {% if not exam_list %}
+            <script>
+                document.getElementsByName('submit-exam')[0].disabled = 'true';
+                document.querySelector('#exam').disabled = 'true';
+            </script>
+        {% endif %}
+    </form>
+
+    {% if exam_id %}
+    <script type="text/javascript">
+        document.getElementsByName('exam')[0].value = '{{ exam_id }}';
+        document.querySelector('.container').style.backgroundColor = 'var(--bg-container)'
+    </script>
+
+    <form id="search-form" action="{{ url_for('search_table', exam_id=exam_id) }}#table-break" method="post">
+        <p style="font-size: 6px;"></p>
+        <label for="studentID">Student ID:</label>
+        <input type="text" list="student-ids" name="studentId" placeholder="ALL"><br><br>
+        <datalist id="student-ids">
+            {% for student_id in studentIds %}
+            <option>{{ student_id['Student ID'] }}</option>
+            {% endfor %}
+        </datalist>
+        {% if studentId %}
+        <script type="text/javascript">
+            document.getElementsByName('studentId')[0].value = '{{ studentId }}'
+        </script>
+        {% endif %}
+        <label for="item_number">Item Number:</label><br>
+        <select name="item_number" id="item_number" title="item_number">
+            <option>ALL</option>
+            {% for row in item_numbers %}
+            <option>{{ row.get('Item No') }}</option>
+            {% endfor %}
+        </select>
+        {% if item_number %}
+        <script type="text/javascript">
+            document.getElementsByName('item_number')[0].value = '{{ item_number }}'
+        </script>
+        {% endif %}
+        <input type="submit" value="Submit">
+    </form>
+</div>
+{% endif %}
+
+
+<br id="table-break"><br><br>
+
+{% if table %}
+<table class="table">
+    <tr>
+        {% for header in table[0] %}
+        <th> {{ header }} </th>
+        {% endfor %}
+    </tr>
+    {% for row in table %}
+    <tr>
+        {% for key in row.keys() %}
+        <td> {{ row.get(key) }} </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+<a rel="noreferrer" href="{{ url_for('plot', exam_id=exam_id) }}" target="_blank"><input id="plot-btn" type="button" value="Compare"></a>
+<br><br><br>
+{% endif %}
+
+{% endblock %}

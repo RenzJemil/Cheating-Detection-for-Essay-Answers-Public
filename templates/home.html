@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<title>Cheating Detection for Essay Answers</title>
+
+{% endblock %}
+
+{% block landingPage %}
+<div class="slideshow">
+    <span class="prev-slide" onclick="changeSlide(-1)">❮</span>
+    <figure class="slide-item">
+        <img src="{{ url_for('static', filename='res/upou_front.jpg') }}">
+        <figcaption>
+            <h1><small><small>University of the Philippines</small></small><br>Information and Communications Technology<br>Development Office</h1>
+            <h4> &bullet; Proactivity &bullet; Innovation &bullet; Novelty &bullet; Teamwork &bullet;</h4>
+        </figcaption>
+    </figure>
+    <img class="slide-item" src="{{ url_for('static', filename='res/upou@27.png') }}">
+    <span class="next-slide" onclick="changeSlide(1)">❯</span>
+</div>
+<br>
+
+<script>
+    const slideShow = document.querySelector('.slideshow');
+    const slideImages = document.getElementsByClassName('slide-item');
+
+    var index = 0;
+    currentSlide(index);
+
+    function currentSlide(i) {
+        slideImages[i].style.display = 'block';
+    }
+
+    function changeSlide(n) {
+        slideImages[index].style.display = 'none';
+        index += n;
+        if (index < 0) index = slideImages.length - 1;
+        else if (index > slideImages.length - 1) index = 0;
+        slideImages[index].style.display = 'block';
+    }
+</script>
+{% endblock %}
+
+{% block body %}
+{% endblock %}

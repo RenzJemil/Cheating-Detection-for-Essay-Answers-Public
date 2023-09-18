@@ -1,0 +1,76 @@
+<html lang="en">
+    <head>
+        <title>Plot</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+        <style>
+            a {
+                color: blue;
+                text-decoration: underline;
+            }
+            a:active {
+                color: purple;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="header">
+            <img id="logo" src="{{ url_for('static', filename='res/logo.png') }}">
+            <h2>Cheating Detection for Essay Answers</h2><br>
+        </div>
+        <nav id="nav-bar" class="sticky">
+            <div id="nav-links-container">
+                <a href="#answers-heading"><button class="nav-btn" onclick="showAnswers()"> Show Answers <img class="nav-pics" src="{{ url_for('static', filename='res/table.png') }}"></button></a>
+            </div>
+        </nav>
+        {% if selected_vectors %}
+            <h3>Plot was closed. Reload or click <a rel="noreferrer" href="{{ url_for('plot', exam_id=exam_id) }}">here</a> to show again</h3>
+        {% else %}
+            <h3>Nothing to show</h3>
+            <br />
+        {% endif %}
+        <h1>Vector Comparison</h1>
+        {% block table %}
+            <table class="table">
+                <tr>
+                    <th></th><th></th>
+                    {% for item in items %}
+                        <th>Student {{ studentId }}</th>
+                    {% endfor %}
+                    <tr>
+                        <th></th><th></th>
+                        {% for item in items %}
+                            <th>{{ item['Item No'] }}</th>
+                        {% endfor %}
+                    </tr>
+                </tr>
+                {% for item in items_left %}
+                    <tr>
+                        <th>Student {{ item['Student ID'] }}</th>
+                        <th>{{ item['Item No'] }}</th>
+                        {% for d in result_euclideans[loop.index-1].round(2) %}
+                            <td>{{ d }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endblock %}
+        <h1 id="answers-heading">Answers</h1>
+        <table id="answers" class="table--invisible">
+            <tr>
+                {% for header in compare_table[0] %}
+                <th> {{ header }} </th>
+                {% endfor %}
+            </tr>
+            {% for row in compare_table %}
+            <tr>
+                {% for key in row.keys() %}
+                <td> {{ row.get(key) }} </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        <br><br><br>
+        <a rel="noreferrer" href="#"><input id="back-to-top" type="image" src="{{ url_for('static', filename='res/back_to_top.png') }}"></a>
+        <script type="text/javascript" src="{{ url_for('static', filename='scripts.js') }}"></script>
+    </body>
+</html>

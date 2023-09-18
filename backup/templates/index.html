@@ -1,0 +1,47 @@
+{% extends 'base.html' %}  <!-- CONNECTION FOR THE OTHER FILE -->
+
+{% block head %} <!-- DISPLAY THE HEADER -->
+
+<title>Upload CSV File</title>
+
+{% endblock %}
+
+{% block body %} <!-- DISPLAY THE BODY -->
+
+<br>
+
+<!-- UPLOADING A FILE -->
+<div class="container">
+    <h1>UPLOAD A CSV FILE</h1>
+    <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="csvfile" accept=".csv"> <!-- limit to csv files only -->
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+<br>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            {% for header in headers %}
+                <th> {{ header }} </th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in table %}
+            <tr>
+                {% for key in row.keys() %}
+                    <td> {{ row.get(key) }} </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<!-- OTHER METHOD TO DISPLAY THE TABLE [1] . COMMENT THE TABLE ABOVE FIRST -->
+<!-- {{ table | safe }} -->
+
+{% endblock %}

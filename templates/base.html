@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    {% block head %}{% endblock %} <!-- CONNECTION FOR ALL HEADERS FROM THE REST OF THE FILES -->
+</head>
+<body>
+    <div id="header">
+        <img id="logo" src="{{ url_for('static', filename='res/logo.png') }}">
+        <h2>Cheating Detection for Essay Answers</h2>
+    </div>
+    {% block landingPage %}
+    {% endblock %}
+    <nav id="nav-bar" class="sticky">
+        <div id="nav-links-container">
+            <a href="{{ url_for('home') }}"><button class="nav-btn"><img class="nav-pics" src="{{ url_for('static', filename='res/home.png') }}"></button></a>
+            <a href="{{ url_for('upload') }}"><button class="nav-btn"> Upload <img class="nav-pics" src="{{ url_for('static', filename='res/upload.png') }}"></button></a>
+            <a href="{{ url_for('search') }}"><button class="nav-btn"> Search <img class="nav-pics" src="{{ url_for('static', filename='res/search.png') }}"></button></a>
+        </div>
+    </nav>
+    {% block body %}{% endblock %} <!-- CONNECTION FOR ALL BODY FROM THE REST OF THE FILES -->
+    {% with messages = get_flashed_messages(category_filter=["error"]) %}
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="flash-container">
+                    <p class="text-danger">
+                        {{ msg }}
+                    </p>
+                    <span class="close" onclick="close_msg()"> &ThickSpace; &times; </span>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    {% with messages = get_flashed_messages(category_filter=["message"]) %}
+        {% if messages %}
+            {% for msg in messages %}
+            <div class="flash-container">
+                <p class="text-success">
+                    {{ msg }}
+                </p>
+                <span class="close" onclick="close_msg()"> &ThickSpace; &times; </span>
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>
